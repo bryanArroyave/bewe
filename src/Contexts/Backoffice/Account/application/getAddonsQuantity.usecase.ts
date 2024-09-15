@@ -12,16 +12,9 @@ export class GetAddonsQuantityUsecase implements IGetAddonsQuantity {
     accountId: number,
     clientId: number
   ): Promise<clientAddonsDto[]> {
-    
-    console.log(accountId, clientId);
-    
-
     const account = await this.accountRepository.getById(
       new AccountId(accountId)
     );
-
-    console.log(account, "account");
-    
 
     if (!account) {
       throw new AccountNotFoundError(accountId);

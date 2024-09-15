@@ -15,7 +15,6 @@ export default function handlerError(error: Error | unknown, res: Response) {
     return res.status(httpStatus.BAD_REQUEST).send({ error: error.message });
   }
 
-  console.log("error handler", error);
   return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
     error: "internal server error",
     err: process.env.NODE_ENV === "production" ? undefined : error,

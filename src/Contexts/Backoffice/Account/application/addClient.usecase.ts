@@ -6,7 +6,7 @@ import { Client } from "../domain/Client";
 import { IAccountRepository } from "../domain/AccountRepository";
 import { AccountId } from "../domain/valueObjects/AccountId";
 import { AccountNotFoundError } from "../domain/errors/accountNotFound.error";
-import { ClientPhoneNumber } from "../domain/valueObjects/ClientPhoneNumber";
+import { ClientCellphone } from "../domain/valueObjects/ClientCellphone";
 
 export class AddClientUsecase implements IAddClient {
   constructor(private accountRepository: IAccountRepository) {}
@@ -28,7 +28,7 @@ export class AddClientUsecase implements IAddClient {
       null,
       new ClientName(accountData.name),
       new ClientEmail(accountData.email),
-      new ClientPhoneNumber(accountData.cellphone),
+      new ClientCellphone(accountData.cellphone),
       false
     );
 

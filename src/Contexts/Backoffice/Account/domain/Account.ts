@@ -52,8 +52,6 @@ export class Account extends AggregateRoot {
     active: boolean;
     clients: any;
   }): Account {
-    console.log("PLAIN DATA", plainData);
-    
     return new Account(
       plainData.id ? new AccountId(plainData.id) : null,
       new AccountName(plainData.name),

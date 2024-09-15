@@ -3,7 +3,7 @@ import { IHandleAccountSubscription } from "./ports/handleAccountSubscription.po
 import { AccountId } from "../domain/valueObjects/AccountId";
 import { AccountNotFoundError } from "../domain/errors/accountNotFound.error";
 
-export class HandleAccountSubscriotionUsecase
+export class HandleAccountSubscriptionUsecase
   implements IHandleAccountSubscription
 {
   constructor(private accountRepository: IAccountRepository) {}

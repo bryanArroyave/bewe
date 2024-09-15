@@ -2,8 +2,8 @@ import { AddAddonToClientUsecase } from "../../../../Contexts/Backoffice/Account
 import { AddClientUsecase } from "../../../../Contexts/Backoffice/Account/application/addClient.usecase";
 import { CreateAccountUsecase } from "../../../../Contexts/Backoffice/Account/application/createAccount.usecase";
 import { GetAddonsQuantityUsecase } from "../../../../Contexts/Backoffice/Account/application/getAddonsQuantity.usecase";
-import { HandleAccountSubscriotionUsecase } from "../../../../Contexts/Backoffice/Account/application/handleAccountSubscription.usecase";
-import { HandleClientSubscriotionUsecase } from "../../../../Contexts/Backoffice/Account/application/handleClientSubscription.usecase";
+import { HandleAccountSubscriptionUsecase } from "../../../../Contexts/Backoffice/Account/application/handleAccountSubscription.usecase";
+import { HandleClientSubscriptionUsecase } from "../../../../Contexts/Backoffice/Account/application/handleClientSubscription.usecase";
 import { NotifyUsecase } from "../../../../Contexts/Backoffice/Account/application/notify.usecase";
 import { IAccountRepository } from "../../../../Contexts/Backoffice/Account/domain/AccountRepository";
 import { AddAddonToClientController } from "../controllers/account/AddAddonToClientController";
@@ -38,14 +38,14 @@ function getHandleAccountSubscriptionController(
   repository: IAccountRepository
 ): HandleAccountSubscriptionController {
   return new HandleAccountSubscriptionController(
-    new HandleAccountSubscriotionUsecase(repository)
+    new HandleAccountSubscriptionUsecase(repository)
   );
 }
 function getHandleClientSubscriptionController(
   repository: IAccountRepository
 ): HandleClientSubscriptionController {
   return new HandleClientSubscriptionController(
-    new HandleClientSubscriotionUsecase(repository)
+    new HandleClientSubscriptionUsecase(repository)
   );
 }
 function getGetAddonsQuantityController(

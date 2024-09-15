@@ -27,13 +27,11 @@ export class AccountRepository implements IAccountRepository {
   }
 
   async getById(id: AccountId): Promise<Account | null> {
-    
     const _account = await AccountEntity.findOne({
       where: { id: id.value },
       relations: ["clients"],
     });
 
-    
     if (_account) {
       return Account.fromPrimitives({
         id: _account.id,
@@ -119,9 +117,6 @@ export class AccountRepository implements IAccountRepository {
     accountId: AccountId,
     clientId: AccountId
   ): Promise<clientAddonsDto[]> {
-
-    console.log("CONSULTANDO");
-    
     const res = await ClientAddonEntity.query(
       `
         SELECT 

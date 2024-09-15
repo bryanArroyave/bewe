@@ -6,7 +6,7 @@ import { Channel } from "./valueObjects/Channel";
 import { ClientEmail } from "./valueObjects/ClientEmail";
 import { ClientId } from "./valueObjects/ClientId";
 import { ClientName } from "./valueObjects/ClientName";
-import { ClientPhoneNumber as ClientCellphone } from "./valueObjects/ClientPhoneNumber";
+import { ClientCellphone } from "./valueObjects/ClientCellphone";
 
 export class Client {
   id?: ClientId;
@@ -48,8 +48,6 @@ export class Client {
     cellphone: string;
     active: boolean;
   }): Client {
-    console.log("PLAIN DATA", plainData);
-
     return new Client(
       plainData.id ? new ClientId(plainData.id) : null,
       new ClientName(plainData.name),
@@ -77,10 +75,6 @@ export class Client {
     channel: Channel,
     addons: clientAddonsDto[]
   ): clientAddonsDto {
-    console.log("channel", channel);
-
-    console.log("ADDONS", addons);
-
     const addon = addons.find((addon) => addon.name === channel.value);
 
     if (!addon) {

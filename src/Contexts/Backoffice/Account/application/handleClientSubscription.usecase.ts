@@ -4,7 +4,7 @@ import { AccountNotFoundError } from "../domain/errors/accountNotFound.error";
 import { IHandleClientSubscription } from "./ports/handleClientSubscription.port";
 import { ClientId } from "../domain/valueObjects/ClientId";
 
-export class HandleClientSubscriotionUsecase
+export class HandleClientSubscriptionUsecase
   implements IHandleClientSubscription
 {
   constructor(private accountRepository: IAccountRepository) {}

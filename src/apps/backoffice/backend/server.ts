@@ -44,7 +44,6 @@ export class Server {
     registerRoutes(router);
 
     router.use((err: Error, req: Request, res: Response, _next: () => void) => {
-      console.log("err midd",err);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err.message);
     });
   }

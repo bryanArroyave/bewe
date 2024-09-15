@@ -3,7 +3,6 @@ import * as dotenv from 'dotenv';
 
 try {
 	dotenv.config();
-	console.log('Starting Mooc Backend App');
 	
 	
 	new MoocBackendApp().start();
