@@ -1,0 +1,26 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "ES2022",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "rootDir": ".",
+    "strict": true,
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "strictPropertyInitialization": false,
+    "outDir": "./dist"
+  },
+  "include": [
+    "src/**/**.ts",
+    "tests/**/**.ts"
+  ],
+  "exclude": ["node_modules"]
+}
