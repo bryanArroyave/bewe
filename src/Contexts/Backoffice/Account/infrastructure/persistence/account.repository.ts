@@ -17,7 +17,7 @@ export class AccountRepository implements IAccountRepository {
     _client.name = clientData.name.value;
     _client.email = clientData.email.value;
     _client.cellphone = clientData.cellphone.value;
-    _client.active = clientData.active;
+    _client.status = clientData.status.value;
 
     const _account = new AccountEntity();
     _account.id = accountId.value;
@@ -28,17 +28,25 @@ export class AccountRepository implements IAccountRepository {
   }
 
   async getById(id: AccountId): Promise<Account | null> {
-    const _account = await AccountEntity.findOne({
-      where: { id: id.value },
-      relations: ["clients"],
-    });
+    const _account = await AccountEntity.createQueryBuilder("account")
+      .leftJoinAndSelect(
+        "account.clients",
+        "client",
+        "client.status != :clientStatus",
+        { clientStatus: "deleted" }
+      )
+      .where("account.id = :accountId", { accountId: id.value })
+      .andWhere("account.status != :accountStatus", {
+        accountStatus: "deleted",
+      })
+      .getOne();
 
     if (_account) {
       return Account.fromPrimitives({
         id: _account.id,
         name: _account.name,
         type: _account.type,
-        active: _account.active,
+        status: _account.status,
         clients: _account.clients,
       });
     }
@@ -51,7 +59,7 @@ export class AccountRepository implements IAccountRepository {
     _account.id = account.id?.value || 0;
     _account.name = account.name.value;
     _account.type = account.type.value;
-    _account.active = account.active;
+    _account.status = account.status.value;
     await _account.save();
     return _account.id;
   }
@@ -127,7 +135,7 @@ export class AccountRepository implements IAccountRepository {
         FROM client_addons ca
         INNER JOIN clients c ON c.id = ca."clientId"
         INNER JOIN addons a ON a.id = ca."addonId"
-        WHERE c.id = ${clientId.value} AND c."accountId" = ${accountId.value}
+        WHERE c.id = ${clientId.value} AND c."accountId" = ${accountId.value} AND c.status = 'active'
     `,
       []
     );

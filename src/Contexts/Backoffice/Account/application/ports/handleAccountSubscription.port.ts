@@ -2,6 +2,6 @@
 export interface IHandleAccountSubscription {
   handleAccountSubscription(
     accountId: number,
-    active: boolean
+    active: string
   ): Promise<number>;
 }

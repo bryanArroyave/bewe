@@ -10,19 +10,20 @@ import { ClientNotFoundError } from "./errors/clientNotFound.error";
 import { ClientHasNotActiveSubscriptionError } from "./errors/clientHasNotActiveSubscription.error";
 import { AccountHasNotActiveSubscriptionError } from "./errors/accountHasNotActiveSubscription.error";
 import { ClientDuplicatedError } from "./errors/clientDuplicated.error";
+import { Status } from "./valueObjects/Status";
 
 export class Account extends AggregateRoot {
   id?: AccountId;
   name: AccountName;
   type: AccountType;
-  active: boolean;
+  status: Status;
   clients: Client[];
 
   constructor(
     id: Nullable<AccountId>,
     name: AccountName,
     type: AccountType,
-    active: boolean,
+    status: Status,
     clients?: Client[]
   ) {
     super();
@@ -31,7 +32,7 @@ export class Account extends AggregateRoot {
     }
     this.name = name;
     this.type = type;
-    this.active = active;
+    this.status = status;
     this.clients = clients || [];
   }
 
@@ -39,24 +40,24 @@ export class Account extends AggregateRoot {
     id: AccountId,
     name: AccountName,
     type: AccountType,
-    active: boolean,
+    status: Status,
     clients?: Client[]
   ): Account {
-    return new Account(id, name, type, active, clients);
+    return new Account(id, name, type, status, clients);
   }
 
   static fromPrimitives(plainData: {
     id?: number;
     name: string;
     type: string;
-    active: boolean;
+    status: string;
     clients: any;
   }): Account {
     return new Account(
       plainData.id ? new AccountId(plainData.id) : null,
       new AccountName(plainData.name),
       new AccountType(plainData.type, AccountType.ACCOUNT_TYPES),
-      plainData.active,
+      new Status(plainData.status),
       plainData.clients?.map((client: any) => Client.fromPrimitives(client))
     );
   }
@@ -66,13 +67,13 @@ export class Account extends AggregateRoot {
       id: this.id?.value,
       name: this.name.value,
       type: this.type.value,
-      active: this.active,
+      status: this.status,
       clients: this.clients,
     };
   }
 
   private hasActiveSubscription(): boolean {
-    return this.active;
+    return this.status.value == "active";
   }
 
   public verifySubscription(): void {
@@ -122,7 +123,7 @@ export class Account extends AggregateRoot {
 
   public async handleClientSubscription(
     clientId: ClientId,
-    active: boolean,
+    status: Status,
     accountRepository: IAccountRepository
   ): Promise<void> {
     if (!this.id) {
@@ -130,7 +131,7 @@ export class Account extends AggregateRoot {
     }
 
     const client = this.findClient(clientId);
-    client.active = active;
+    client.status = status;
 
     await accountRepository.saveClient(this.id, client);
   }

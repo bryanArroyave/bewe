@@ -20,7 +20,7 @@ describe("HandleAccountSubscriptionUsecase", () => {
 
   it("should update the subscription status of the account when account exists", async () => {
     const accountId = 1;
-    const newActiveStatus = true;
+    const newActiveStatus = "active";
 
     mockAccountRepository.getById.mockResolvedValueOnce(mockAccount);
     mockAccountRepository.save.mockResolvedValueOnce(accountId);
@@ -31,7 +31,7 @@ describe("HandleAccountSubscriptionUsecase", () => {
         newActiveStatus
       );
 
-    expect(mockAccount.active).toBe(newActiveStatus);
+    expect(mockAccount.status.value).toBe(newActiveStatus);
 
     expect(mockAccountRepository.save).toHaveBeenCalledWith(mockAccount);
 
@@ -40,7 +40,7 @@ describe("HandleAccountSubscriptionUsecase", () => {
 
   it("should throw AccountNotFoundError if account does not exist", async () => {
     const accountId = 1;
-    const newActiveStatus = true;
+    const newActiveStatus = "active";
 
     mockAccountRepository.getById.mockResolvedValueOnce(null);
 

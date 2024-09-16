@@ -10,8 +10,9 @@ import { ClientName } from "../../../../../src/Contexts/Backoffice/Account/domai
 import { ClientEmail } from "../../../../../src/Contexts/Backoffice/Account/domain/valueObjects/ClientEmail";
 import { ClientCellphone } from "../../../../../src/Contexts/Backoffice/Account/domain/valueObjects/ClientCellphone";
 import { ClientDuplicatedError } from "../../../../../src/Contexts/Backoffice/Account/domain/errors/clientDuplicated.error";
+import { Status } from '../../../../../src/Contexts/Backoffice/Account/domain/valueObjects/Status';
 
-describe.only("AddAddonToClientUsecase", () => {
+describe("AddAddonToClientUsecase", () => {
   let accountRepository: IAccountRepository;
 
   true;
@@ -27,7 +28,7 @@ describe.only("AddAddonToClientUsecase", () => {
           new AccountId(1),
           new AccountName("John"),
           new AccountType("basic", AccountType.ACCOUNT_TYPES),
-          true
+          new Status("active")
         )
     ).toThrow(new AccountTypeNotFoundError("basic"));
   });
@@ -38,14 +39,14 @@ describe.only("AddAddonToClientUsecase", () => {
       new ClientName("John Doe"),
       new ClientEmail("john@example.com"),
       new ClientCellphone("1234567890"),
-      true
+      new Status("active")
     );
 
     const account = Account.fromPrimitives({
       id: 1,
       name: "John",
       type: "health",
-      active: true,
+      status: "active",
       clients: [],
     });
 
@@ -65,14 +66,14 @@ describe.only("AddAddonToClientUsecase", () => {
       new ClientName("John Doe"),
       new ClientEmail("john@example.com"),
       new ClientCellphone("1234567890"),
-      true
+      new Status("active")
     );
 
     const account = Account.fromPrimitives({
       id: 1,
       name: "John",
       type: "health",
-      active: true,
+      status: "active",
       clients: [],
     });
     accountRepository.saveClient = jest
@@ -86,12 +87,12 @@ describe.only("AddAddonToClientUsecase", () => {
     ).rejects.toThrow(ClientDuplicatedError);
   });
 
-  it.only("should throw an error when account is inactive", async () => {
+  it("should throw an error when account is inactive", async () => {
     const account = Account.fromPrimitives({
       id: 1,
       name: "John",
       type: "health",
-      active: false,
+      status: "inactive",
       clients: [],
     });
 

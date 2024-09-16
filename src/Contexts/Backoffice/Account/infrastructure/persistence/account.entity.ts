@@ -18,8 +18,12 @@ export class Account extends BaseEntity {
   @Column({ type: "varchar", length: 255 })
   type: string;
 
-  @Column({ type: "boolean" })
-  active: boolean;
+  @Column({
+    type: "varchar",
+    enum: ["active", "inactive", "deleted"],
+    default: "inactive",
+  })
+  status: string;
 
   @OneToMany(() => Client, (client) => client.account)
   clients: Client[];

@@ -7,6 +7,7 @@ import { IAccountRepository } from "../domain/AccountRepository";
 import { AccountId } from "../domain/valueObjects/AccountId";
 import { AccountNotFoundError } from "../domain/errors/accountNotFound.error";
 import { ClientCellphone } from "../domain/valueObjects/ClientCellphone";
+import { Status } from "../domain/valueObjects/Status";
 
 export class AddClientUsecase implements IAddClient {
   constructor(private accountRepository: IAccountRepository) {}
@@ -29,7 +30,7 @@ export class AddClientUsecase implements IAddClient {
       new ClientName(accountData.name),
       new ClientEmail(accountData.email),
       new ClientCellphone(accountData.cellphone),
-      false
+      new Status("inactive")
     );
 
     await account.addClient(accountId, client, this.accountRepository);

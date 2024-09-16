@@ -8,10 +8,12 @@ export class HandleAccountSubscriptionController implements IController {
   constructor(private readonly usecase: IHandleAccountSubscription) {}
 
   async run(req: Request, res: Response): Promise<void> {
+    console.log(req.body);
+    
     try {
       const accountId = await this.usecase.handleAccountSubscription(
         parseInt(req.params.accountId),
-        req.body.active
+        req.body.status
       );
       res.status(httpStatus.OK).send({ account_id: accountId });
     } catch (error: any) {

@@ -2,6 +2,7 @@ import { IAccountRepository } from "../domain/AccountRepository";
 import { IHandleAccountSubscription } from "./ports/handleAccountSubscription.port";
 import { AccountId } from "../domain/valueObjects/AccountId";
 import { AccountNotFoundError } from "../domain/errors/accountNotFound.error";
+import { Status } from "../domain/valueObjects/Status";
 
 export class HandleAccountSubscriptionUsecase
   implements IHandleAccountSubscription
@@ -9,7 +10,7 @@ export class HandleAccountSubscriptionUsecase
   constructor(private accountRepository: IAccountRepository) {}
   async handleAccountSubscription(
     accountId: number,
-    active: boolean
+    status: string
   ): Promise<number> {
     const account = await this.accountRepository.getById(
       new AccountId(accountId)
@@ -19,7 +20,7 @@ export class HandleAccountSubscriptionUsecase
       throw new AccountNotFoundError(accountId);
     }
 
-    account.active = active;
+    account.status = new Status(status);
 
     return this.accountRepository.save(account);
   }

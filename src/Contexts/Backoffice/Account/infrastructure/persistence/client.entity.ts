@@ -25,8 +25,12 @@ export class Client extends BaseEntity {
   @Column({ type: "varchar", length: 255 })
   cellphone: string;
 
-  @Column({ type: "boolean" })
-  active: boolean;
+  @Column({
+    type: "varchar",
+    enum: ["active", "inactive", "deleted"],
+    default: "inactive",
+  })
+  status: string;
 
   @ManyToOne(() => Account, (account) => account.clients)
   account: Account;

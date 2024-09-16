@@ -1,26 +1,27 @@
 import { Nullable } from "../../../Shared/domain/Nullable";
 import { CustomError } from "../../Shared/errors/Custom.error";
 import { clientAddonsDto } from "./dtos/clientAddons.dto";
-import { ChannelQuantityError } from "./errors/ChannelQuantity.error";
 import { Channel } from "./valueObjects/Channel";
 import { ClientEmail } from "./valueObjects/ClientEmail";
 import { ClientId } from "./valueObjects/ClientId";
 import { ClientName } from "./valueObjects/ClientName";
 import { ClientCellphone } from "./valueObjects/ClientCellphone";
+import { ChannelQuantityError } from "./errors/channelQuantity.error";
+import { Status } from "./valueObjects/Status";
 
 export class Client {
   id?: ClientId;
   name: ClientName;
   email: ClientEmail;
   cellphone: ClientCellphone;
-  active: boolean;
+  status: Status;
 
   constructor(
     id: Nullable<ClientId>,
     name: ClientName,
     email: ClientEmail,
     cellphone: ClientCellphone,
-    active: boolean
+    status: Status
   ) {
     if (id) {
       this.id = id;
@@ -28,7 +29,7 @@ export class Client {
     this.name = name;
     this.email = email;
     this.cellphone = cellphone;
-    this.active = active;
+    this.status = status;
   }
 
   static create(
@@ -36,9 +37,9 @@ export class Client {
     name: ClientName,
     email: ClientEmail,
     cellphone: ClientCellphone,
-    active: boolean
+    status: Status
   ): Client {
-    return new Client(id, name, email, cellphone, active);
+    return new Client(id, name, email, cellphone, status);
   }
 
   static fromPrimitives(plainData: {
@@ -46,14 +47,14 @@ export class Client {
     name: string;
     email: string;
     cellphone: string;
-    active: boolean;
+    status: string;
   }): Client {
     return new Client(
       plainData.id ? new ClientId(plainData.id) : null,
       new ClientName(plainData.name),
       new ClientEmail(plainData.email),
       new ClientCellphone(plainData.cellphone),
-      plainData.active
+      new Status(plainData.status)
     );
   }
 
@@ -63,12 +64,12 @@ export class Client {
       name: this.name.value,
       email: this.email.value,
       cellphone: this.cellphone.value,
-      active: this.active,
+      status: this.status,
     };
   }
 
   public hasActiveSubscription(): boolean {
-    return this.active;
+    return this.status.value === "active";
   }
 
   public allowSendMessage(

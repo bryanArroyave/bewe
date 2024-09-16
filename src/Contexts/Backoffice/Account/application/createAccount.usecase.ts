@@ -5,6 +5,7 @@ import { IAccountRepository } from "../domain/AccountRepository";
 import CreateAccountDto from "../domain/dtos/createAccount.dto";
 import { AccountName } from "../domain/valueObjects/AccountName";
 import { AccountType } from "../domain/valueObjects/AccountType";
+import { Status } from "../domain/valueObjects/Status";
 
 export class CreateAccountUsecase implements ICreateAccount {
   constructor(private accountRepository: IAccountRepository) {}
@@ -14,7 +15,7 @@ export class CreateAccountUsecase implements ICreateAccount {
       null,
       new AccountName(accountDto.name),
       new AccountType(accountDto.type, AccountType.ACCOUNT_TYPES),
-      false
+      new Status("inactive")
     );
 
     try {

@@ -3,6 +3,7 @@ import { AccountId } from "../domain/valueObjects/AccountId";
 import { AccountNotFoundError } from "../domain/errors/accountNotFound.error";
 import { IHandleClientSubscription } from "./ports/handleClientSubscription.port";
 import { ClientId } from "../domain/valueObjects/ClientId";
+import { Status } from "../domain/valueObjects/Status";
 
 export class HandleClientSubscriptionUsecase
   implements IHandleClientSubscription
@@ -11,7 +12,7 @@ export class HandleClientSubscriptionUsecase
   async handleClientSubscription(
     accountId: number,
     clientId: number,
-    active: boolean
+    status: string
   ): Promise<number> {
     const account = await this.accountRepository.getById(
       new AccountId(accountId)
@@ -25,7 +26,7 @@ export class HandleClientSubscriptionUsecase
 
     await account.handleClientSubscription(
       new ClientId(clientId),
-      active,
+      new Status(status),
       this.accountRepository
     );
     return clientId;

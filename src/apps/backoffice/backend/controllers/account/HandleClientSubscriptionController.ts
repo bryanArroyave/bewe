@@ -12,7 +12,7 @@ export class HandleClientSubscriptionController implements IController {
       const clientId = await this.usecase.handleClientSubscription(
         parseInt(req.params.accountId),
         parseInt(req.params.clientId),
-        req.body.active
+        req.body.status
       );
       res.status(httpStatus.OK).send({ client_id: clientId });
     } catch (error: any) {

@@ -4,6 +4,7 @@ import mockAccountRepository from "../mocks/accountRepository.mock";
 import { Account } from "../../../../../src/Contexts/Backoffice/Account/domain/Account";
 import { AccountNotFoundError } from "../../../../../src/Contexts/Backoffice/Account/domain/errors/accountNotFound.error";
 import { ClientId } from "../../../../../src/Contexts/Backoffice/Account/domain/valueObjects/ClientId";
+import { Status } from "../../../../../src/Contexts/Backoffice/Account/domain/valueObjects/Status";
 
 describe("HandleClientSubscriptionUsecase", () => {
   let handleClientSubscriptionUsecase: HandleClientSubscriptionUsecase;
@@ -22,7 +23,7 @@ describe("HandleClientSubscriptionUsecase", () => {
   it("should update the subscription status of the client when account and client exist", async () => {
     const accountId = 1;
     const clientId = 1;
-    const newActiveStatus = true;
+    const newActiveStatus = "active";
 
     mockAccountRepository.getById.mockResolvedValueOnce(mockAccount);
 
@@ -36,7 +37,7 @@ describe("HandleClientSubscriptionUsecase", () => {
     expect(mockAccount.verifySubscription).toHaveBeenCalled();
     expect(mockAccount.handleClientSubscription).toHaveBeenCalledWith(
       new ClientId(clientId),
-      newActiveStatus,
+      new Status(newActiveStatus),
       mockAccountRepository
     );
     expect(result).toBe(clientId);
@@ -45,7 +46,7 @@ describe("HandleClientSubscriptionUsecase", () => {
   it("should throw AccountNotFoundError if account does not exist", async () => {
     const accountId = 1;
     const clientId = 1;
-    const newActiveStatus = true;
+    const newActiveStatus = "active";
 
     mockAccountRepository.getById.mockResolvedValueOnce(null);
 
