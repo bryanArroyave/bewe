@@ -28,10 +28,12 @@ export const register = (router: Router): void => {
     getAddClientController(repository).run(req, res);
   });
 
-  router.put("/account/:accountId/client/:clientId", (req: Request, res: Response) => {
-    getUpdateClientController(repository).run(req, res);
-  });
-
+  router.put(
+    "/account/:accountId/client/:clientId",
+    (req: Request, res: Response) => {
+      getUpdateClientController(repository).run(req, res);
+    }
+  );
 
   router.put(
     "/account/:accountId/client/:clientId/addon",
@@ -46,8 +48,6 @@ export const register = (router: Router): void => {
       getHandleAccountSubscriptionController(repository).run(req, res);
     }
   );
-
-  
 
   router.put(
     "/account/:accountId/client/:clientId/subscription",

@@ -4,6 +4,7 @@ import { AccountNotFoundError } from "../domain/errors/accountNotFound.error";
 import { ClientId } from "../domain/valueObjects/ClientId";
 import { INotify } from "./ports/notify.port";
 import { Channel } from "../domain/valueObjects/Channel";
+import { NotificationFactory } from "../../Shared/domain/notification.factory";
 
 export class NotifyUsecase implements INotify {
   constructor(private accountRepository: IAccountRepository) {}
@@ -32,6 +33,16 @@ export class NotifyUsecase implements INotify {
       new Channel(channel, Channel.TYPES),
       addons
     );
+
+    const contactabilities: any = {
+      sms: client.cellphone.value,
+      whatsapp: client.cellphone.value,
+      email: client.email.value,
+    };
+
+    NotificationFactory.getInstance()
+      .get(channel)
+      .notify(contactabilities[channel], "Notification message");
 
     await this.accountRepository.decreaseClientAddon(
       new ClientId(clientId),
