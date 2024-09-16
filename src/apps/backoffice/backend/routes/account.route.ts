@@ -7,21 +7,31 @@ import {
   getHandleAccountSubscriptionController,
   getHandleClientSubscriptionController,
   getNotifyController,
+  getUpdateAccountController,
+  getUpdateClientController,
 } from "../dependency-injection/accountContainer";
 import { IAccountRepository } from "../../../../Contexts/Backoffice/Account/domain/AccountRepository";
 import { AccountRepository } from "../../../../Contexts/Backoffice/Account/infrastructure/persistence/account.repository";
 
 export const register = (router: Router): void => {
   const repository: IAccountRepository = new AccountRepository();
-  
 
   router.post("/account", (req: Request, res: Response) => {
     getCreateAccountController(repository).run(req, res);
   });
 
-  router.put("/account/:accountId/client", (req: Request, res: Response) => {
+  router.put("/account/:accountId", (req: Request, res: Response) => {
+    getUpdateAccountController(repository).run(req, res);
+  });
+
+  router.post("/account/:accountId/client", (req: Request, res: Response) => {
     getAddClientController(repository).run(req, res);
   });
+
+  router.put("/account/:accountId/client/:clientId", (req: Request, res: Response) => {
+    getUpdateClientController(repository).run(req, res);
+  });
+
 
   router.put(
     "/account/:accountId/client/:clientId/addon",
@@ -36,6 +46,8 @@ export const register = (router: Router): void => {
       getHandleAccountSubscriptionController(repository).run(req, res);
     }
   );
+
+  
 
   router.put(
     "/account/:accountId/client/:clientId/subscription",

@@ -5,6 +5,8 @@ import { GetAddonsQuantityUsecase } from "../../../../Contexts/Backoffice/Accoun
 import { HandleAccountSubscriptionUsecase } from "../../../../Contexts/Backoffice/Account/application/handleAccountSubscription.usecase";
 import { HandleClientSubscriptionUsecase } from "../../../../Contexts/Backoffice/Account/application/handleClientSubscription.usecase";
 import { NotifyUsecase } from "../../../../Contexts/Backoffice/Account/application/notify.usecase";
+import { UpdateAccountUsecase } from "../../../../Contexts/Backoffice/Account/application/updateccount.usecase";
+import { UpdateClientUsecase } from "../../../../Contexts/Backoffice/Account/application/updateClient.usecase";
 import { IAccountRepository } from "../../../../Contexts/Backoffice/Account/domain/AccountRepository";
 import { AddAddonToClientController } from "../controllers/account/AddAddonToClientController";
 import { AddClientController } from "../controllers/account/AddClientController";
@@ -13,6 +15,8 @@ import { GetAddonsQuantityController } from "../controllers/account/GetAddonsQua
 import { HandleAccountSubscriptionController } from "../controllers/account/HandleAccountSubscriptionController";
 import { HandleClientSubscriptionController } from "../controllers/account/HandleClientSubscriptionController";
 import { NotifyController } from "../controllers/account/NotifyController";
+import { UpdateAccountController } from "../controllers/account/UpdateAccountController";
+import { UpdateClientController } from "../controllers/account/UpdateClientController";
 
 function getCreateAccountController(
   repository: IAccountRepository
@@ -20,10 +24,22 @@ function getCreateAccountController(
   return new CreateAccountController(new CreateAccountUsecase(repository));
 }
 
+function getUpdateAccountController(
+  repository: IAccountRepository
+): UpdateAccountController {
+  return new UpdateAccountController(new UpdateAccountUsecase(repository));
+}
+
 function getAddClientController(
   repository: IAccountRepository
 ): AddClientController {
   return new AddClientController(new AddClientUsecase(repository));
+}
+
+function getUpdateClientController(
+  repository: IAccountRepository
+): UpdateClientController {
+  return new UpdateClientController(new UpdateClientUsecase(repository));
 }
 
 function getAddAddonToClientController(
@@ -61,10 +77,12 @@ function getNotifyController(repository: IAccountRepository): NotifyController {
 
 export {
   getCreateAccountController,
+  getUpdateAccountController,
   getAddClientController,
   getAddAddonToClientController,
   getHandleAccountSubscriptionController,
   getHandleClientSubscriptionController,
   getGetAddonsQuantityController,
   getNotifyController,
+  getUpdateClientController,
 };

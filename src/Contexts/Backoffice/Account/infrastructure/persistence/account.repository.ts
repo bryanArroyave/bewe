@@ -16,6 +16,7 @@ export class AccountRepository implements IAccountRepository {
     _client.id = clientData.id?.value || 0;
     _client.name = clientData.name.value;
     _client.email = clientData.email.value;
+    _client.cellphone = clientData.cellphone.value;
     _client.active = clientData.active;
 
     const _account = new AccountEntity();
